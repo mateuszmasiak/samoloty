@@ -1,6 +1,3 @@
- -*- coding: utf-8 -*-
-
-
 from __future__ import unicode_literals
 
 from django.test import TestCase
@@ -10,12 +7,12 @@ from selenium.webdriver.common.keys import Keys
 import unittest
 import time
 
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--incognito")
+driver = webdriver.Chrome(chrome_options=chrome_options,executable_path="/Users/mateuszmasiak/Desktop/chromedriver")
 
-driver = webdriver.Chrome(executable_path="/Users/mateuszmasiak/Desktop/chromedriver")
-driver = webd
-adfs
-river.Chrome()
 driver.get("http://127.0.0.1:8000/planecrew/")
+
 elem = driver.find_element_by_css_selector("#content > a")
 elem.click()
 elem = driver.find_element_by_css_selector("#id_username")
@@ -35,11 +32,16 @@ elem.click()
 elem = driver.find_element_by_css_selector("#sidebar > a:nth-child(2)")
 elem.click()
 elem = driver.find_element_by_css_selector("body > form > input[type=\"number\"]:nth-child(2)")
-elem.send_keys("2915")
+elem.send_keys("10")
 elem = driver.find_element_by_css_selector("#prz1")
-elem.send_keys("2965")
+elem.click()
+time.sleep(5)
+elem = driver.find_element_by_css_selector("body > form > input[type=\"number\"]:nth-child(2)")
+elem.send_keys("11")
 elem = driver.find_element_by_css_selector("#prz1")
-driver.refresh()
-time.sleep(2)
 elem.click()
 time.sleep(2)
+message= driver.find_element_by_css_selector("#myTable > tbody > tr:nth-child(10) > td:nth-child(3)")
+assert message.text == "nowe imie"
+message= driver.find_element_by_css_selector("#myTable > tbody > tr:nth-child(11) > td:nth-child(3)")
+assert message.text == "nowe imie"
