@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+<!--  <link rel="stylesheet"  href="{% static 'zadanie1/wojew.css'%}" type="text/css"> -->
+
+  <!--  <link rel="stylesheet" href="style.css" />   -->
+    <title>edycja zalogi</title>
+</head>
+
+<body>
+   <a href="/planecrew/">powrót do listy wszystkich lotów</a>
+  <div id = "pom">
+  </div>
+  <div>
+        Mozesz edytowac dane pasazera ponizej.
+  </div>
+  <script>
+    var url = document.URL;
+    var tab = url.split("/");
+    var id = tab[4];
+    var airport = tab[5];
+    var plane = tab[6];
+    var x = document.getElementById("pom");
+    pom.innerHTML = "Obecne id to: "+id+"  oraz lotnisko: "+airport+"  oraz samolot: "+plane;
+  </script>
+
+
+  <form method = "POST">{% csrf_token %}
+
+     <input type="text" name="fname" value="imie">
+     <input type="text" name="lname" value="nazwisko">
+
+     <button type="submit" class="save btn btn-default" id = "prz">Aktualizuj</button>
+  </form>
+
+
+
+<script>
+var b = document.getElementById("prz");
+</script>
+
+
+
+  <form method = "POST">{% csrf_token %}
+     <input type="number" name="id" value="id">
+     <input type="text" name="airport" value="lotnisko">
+     <input type="text" name="crew_first_name" value="imie">
+     <input type="text" name="crew_last_name" value="nazwisko">
+     <input type="number" name="plane" value="samolot">
+     <button onclick="myFunction()" id = "prz">Aktualizuj</button>
+  </form>
+
+<script>
+function myFunction(){
+var id = document.getElementsByName("id")[0].value;
+var airport = document.getElementsByName("airport")[0].value;
+var crew_first_name = document.getElementsByName("crew_first_name")[0].value;
+var crew_last_name = document.getElementsByName("crew_last_name")[0].value;
+var plane = document.getElementsByName("plane")[0].value;
+
+var xhr = new XMLHttpRequest();
+var url = document.URL;
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json.email + ", " + json.password);
+    }
+};
+var data = JSON.stringify({"id": id, "airport": airport
+,"crew_last_name":crew_last_name,"crew_first_name":crew_first_name,"plane":plane});
+xhr.send(data);
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Wybrany lot{% endblock %}
+<!-- <div id="content"> -->
+
+{% block sidebar %}
+<td> <a href="/flightlist/">powrót do listy wszystkich lotów</a> </td>
+{% endblock %}
+
+{% block content %}
+  <script>
+    function NoPlacesAlert(){
+      window.alert("Not enough places available!!!")
+    }
+  </script>
+ <p> Zalogowanie udane, jests na stronie prezentującej wybrany przez Ciebie lot. </p>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <div>
+   Tutaj masz możliwość dodania pasażera:
+   <form method = "POST">{% csrf_token %}
+      <input type="text" name="first_name" value="Imię">
+      <input type="text" name="last_name" value="Nazwisko">
+      <input type="number" name="plac" value="Ile Miejsc">
+
+      <button type="submit" class="save btn btn-default">Dodaj Osobe</button>
+   </form>
+ </div>
+<div>
+ <table style="width:100%">
+   <tr>
+     <th>ID lotu</th>
+     <th>Lotnisko</th>
+     <th>Początek lotu</th>
+     <th>Koniec lotu</th>
+     <th>Samolot</th>
+     <th>Miejsca w samolocie wszystkie:</th>
+   </tr>
+    <tr>
+        <td> {{flight.id}}</td>
+        <td> {{flight.airport}} </td>
+        <td> {{flight.start_time}} </td>
+        <td> {{flight.end_time}} </td>
+        <td> {{flight.plane.rejestration_number}} </td>
+        <td> {{flight.plane.places}} </td>
+        {% if invalid %}
+            <script>NoPlacesAlert();</script>
+        {% endif %}
+
+    </tr>
+</div>
+    <p>Pasażerowie:</p>
+ {% for p, places in persons.items %}
+    <li> Imie: {{p.first_name}}, Nazwisko: {{p.last_name}}, Nabyte Miejsca: {{places}} </li>
+{% endfor %}
+{% endblock %}

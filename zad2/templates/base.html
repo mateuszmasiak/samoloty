@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+<!--  <link rel="stylesheet"  href="{% static 'zadanie1/wojew.css'%}" type="text/css"> -->
+
+  <!--  <link rel="stylesheet" href="style.css" />   -->
+    <title>{% block title %}My amazing site{% endblock %}</title>
+</head>
+
+<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <div class="odsw"><a class = "odsw1" href="/">Home/Odswierz</a></div>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

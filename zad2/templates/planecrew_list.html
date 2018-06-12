@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="{% static "jquery-1.11.1.js" %}"></script>
+
+
+<head>
+
+</head>
+
+<head>
+  <title>zalogi lotow</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <form method = "POST">{% csrf_token %}
+     <input type="number" name="id" value="podaj id">
+     <input type="text" name="crew_first_name" value="nowe imie">
+     <input type="text" name="crew_last_name" value="nowe nazwisko">
+
+
+
+     <button type="button" onclick="bla()" id = "prz1" class="save btn btn-default">Aktualizuj</button>
+  </form>
+  <div class="mypanel", id="mypanel"></div>
+</script>
+
+
+<table style="width:100%" id = "myTable">
+
+ </table>
+
+
+  <script>
+  var xmlhttp = new XMLHttpRequest();
+  var url = "http://127.0.0.1:8000/planecrew/json/";
+
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          myFunction(myArr);
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+
+  function myFunction(arr){
+      var t = document.getElementById("myTable");
+      var out = "";
+      var i;
+      for(i = 0; i < arr.length; i++){
+          var row = t.insertRow(i);
+          var id = row.insertCell(0);
+          var airport = row.insertCell(1);
+          var name = row.insertCell(2);
+          var sname = row.insertCell(3);
+          var plane = row.insertCell(4);
+          var start_time = row.insertCell(5);
+          var end_time = row.insertCell(6);
+          var link = row.insertCell(7);
+          plane.innerHTML = arr[i].plane;
+          id.innerHTML = arr[i].id;
+          airport.innerHTML = arr[i].airport;
+          name.innerHTML = arr[i].crew_first_name;
+          sname.innerHTML = arr[i].crew_last_name;
+          start_time.innerHTML = arr[i].start_time;
+          end_time.innerHTML = arr[i].end_time;
+          var pom = "/planecrew/"+arr[i].id+ "/"+arr[i].airport+"/"+arr[i].plane;
+          var l = "<a href=" + pom+">"+ "link strony lotu"+"</a>"
+          link.innerHTML = "lot";
+      }
+    }
+    //  document.getElementById("id01").innerHTML = out;
+
+  </script>
+
+<script>
+function bla(){
+var xlhttp = new XMLHttpRequest();
+var url = "http://127.0.0.1:8000/planecrew/json/";
+var id = document.getElementsByName("id")[0].value;
+//var airport = document.getElementsByName("airport")[0].value;
+var crew_first_name = document.getElementsByName("crew_first_name")[0].value;
+var crew_last_name = document.getElementsByName("crew_last_name")[0].value;
+//var plane = document.getElementsByName("plane")[0].value;
+//var start_time = document.getElementsByName("start_time")[0].value
+//var end_time = document.getElementsByName("end_time")[0].value
+//var mdata = "fdasfadsd";
+
+
+// <input type="text" name="airport" value="lotnisko">
+//
+// <input type="number" name="plane" value="samolot">
+//  <input type="datetime" name="start_time" value="start_time">
+//  <input type="datetime" name="end_time" value="end_time" >
+//var mdata = JSON.stringify({"id": id, "airport": airport,"crew_last_name":crew_last_name,"crew_first_name":crew_first_name,"plane":plane, "start_time":start_time, "end_time":end_time});
+var mdata = JSON.stringify({"id": id, "crew_last_name":crew_last_name,"crew_first_name":crew_first_name});
+
+console.log(mdata);
+//mdata = '{}'
+//xhttp.open("POST", url, true);
+//xhttp.send(mdata);
+
+
+
+
+
+
+$.ajax({
+  type: "POST",
+  headers: {
+   'Content-Type':'application/x-www-form-urlencoded'
+},
+  url: "http://127.0.0.1:8000/planecrew/",
+ data: mdata,
+ success: function(json){console.log(json)},
+ dataType: "json",
+ contentType : "application/json"
+});
+
+
+location.reload()
+// $.ajax({
+//   url: 'http://127.0.0.1:8000/planecrew/',
+//   success: function(data) {
+//     if (data == "refresh"){
+//       window.location.reload(); // This is not jQuery but simple plain ol' JS
+//     }
+//   }
+// });
+
+
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Lista Samolotow{% endblock %}
+<!-- <div id="content"> -->
+
+{% block sidebar %}
+<td> <a href="/flightlist/">powrót do listy wszystkich lotów/ odświeżenie</a> </td>
+<td> <a href="/planecrew/">link do strony zalog lotow</a> </td>
+{% endblock %}
+
+{% block content %}
+
+<div id="actions">
+    <a href="/logout">Wyloguj</a>
+</div>
+
+ <p> Zalogowanie udane, jests na stronie prezentującej listę lotów. </p>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <div>
+   Tutaj masz możliwość filtrowania:
+   <form method = "POST">{% csrf_token %}
+      <input type="date" name="fry" value="od: rok">
+      <input type="date" name="frm" value="od: miesiąc">
+      <input type="date" name="frd" value="od: dzień">
+      <input type="date" name="frh" value="od: godzina">
+      <input type="date" name="frmin" value="od: minuta">
+      <input type="date" name="frsek" value="od: sekunda">
+
+
+      <input type="date" name="untily" value="do: rok">
+      <input type="date" name="untilm" value="do: miesiąc">
+      <input type="date" name="untild" value="do : dzień">
+      <input type="date" name="untilh" value="do: godzina">
+      <input type="date" name="untilmin" value="do: minuta">
+      <input type="date" name="untilsek" value="do: sekunda">
+
+      <button type="submit" class="save btn btn-default">Filtruj</button>
+   </form>
+ </div>
+ <table style="width:100%">
+   <tr>
+     <th>ID lotu</th>
+     <th>Lotnisko</th>
+     <th>Początek lotu</th>
+     <th>Koniec lotu</th>
+   </tr>
+ {% for flight in flight_list %}
+    <tr>
+        <td> <a href="/flightlist/{{flight.id}}">{{flight.id}}</a> </td>
+        <td> {{flight.airport}} </td>
+        <td> {{flight.start_time}} </td>
+        <td> {{flight.end_time}} </td>
+
+    </tr>
+
+ {% endfor %}
+{% endblock %}
